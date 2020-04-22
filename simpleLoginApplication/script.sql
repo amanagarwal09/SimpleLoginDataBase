@@ -1,5 +1,5 @@
-create database today09_04_2020;
-use today09_04_2020;
+create database login;
+use login;
 
 create table register(
 	userid varchar(50),
