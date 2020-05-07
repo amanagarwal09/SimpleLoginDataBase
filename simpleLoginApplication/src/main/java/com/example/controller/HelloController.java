@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.model.Login;
 import com.example.model.Register;
 import com.example.model.impl.RegisterDao;
 import com.example.validator.RegisterValidator;
-import com.example.validator.UserValidator;
 
 @Controller
 public class HelloController {
@@ -75,6 +73,84 @@ public class HelloController {
 			return mv;
 		}
 	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView goUpdatePage(@RequestParam String name, @RequestParam String email, ModelMap model) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("email", email);
+		mv.addObject("name", name);
+		mv.setViewName("update");
+		return mv;
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView showUpdatePage(@ModelAttribute("update") Register register, ModelMap model) {
+		List<Register> getall = dao.getall();
+		for (Register i : getall) {
+			if (register.getPassword().equals(i.getPassword())) {
+				int update = dao.update(register);
+				if (update >= 1) {
+					String str = "<div class=\"alert alert-success alert-dismissible text-center\">\r\n"
+							+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+							+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+							+ "			Credential<strong> Updated!</strong>" + "		</div>";
+					model.put("updatedonemsg", str);
+					return showAll();
+				} else {
+					String str = "<div class=\"alert alert-danger alert-dismissible text-center\">\r\n"
+							+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+							+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+							+ "			Credential <strong>Upgradetion Failed!</strong>" + "		</div>";
+					model.put("updatenotdonemsg", str);
+					return showAll();
+				}
+			}
+		}
+		String str = "<div class=\"alert alert-warning alert-dismissible text-center\">\r\n"
+				+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+				+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+				+ "			<strong>Enter Your Correct Password</strong> to Update Credentials!" + "		</div>";
+		model.put("checkpass", str);
+		return showAll();
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView goDeletePage(@RequestParam String email, ModelMap model) {
+		model.put("email", email);
+		return new ModelAndView("delete");
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ModelAndView showDeletePage(@ModelAttribute("delete") Register register, ModelMap model) {
+		List<Register> getall = dao.getall();
+		for (Register i : getall) {
+			if (i.getPassword().equals(register.getPassword())) {
+				int delete = dao.delete(register.getEmail());
+				if (delete >= 1) {
+					String str = "<div class=\"alert alert-success alert-dismissible text-center\">\r\n"
+							+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+							+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+							+ "			Credential <strong>Deleted!</strong>" + "		</div>";
+					model.put("deletedonemsg", str);
+					return showAll();
+				} else {
+					String str = "<div class=\"alert alert-danger alert-dismissible text-center\">\r\n"
+							+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+							+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+							+ "			Credential <strong>Deletion Failed!</strong>" + "		</div>";
+					model.put("deletenotdonemsg", str);
+					return showAll();
+				}
+			}
+		}
+		String str = "<div class=\"alert alert-warning alert-dismissible text-center\">\r\n"
+				+ "			<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\r\n"
+				+ "				<span>&times;</span>\r\n" + "			</button>\r\n"
+				+ "			<strong>Enter Your Correct Password</strong> to Delete Credentials!" + "		</div>";
+		model.put("checkpass", str);
+		return showAll();
+	}
+
 	@RequestMapping(value = "/showAll", method = RequestMethod.GET)
 	public ModelAndView showAll() {
 		ModelAndView mv = new ModelAndView();

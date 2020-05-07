@@ -17,7 +17,7 @@ public class RegisterValidator implements org.springframework.validation.Validat
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userid", "register.userId.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "register.name.empty");
 		ValidationUtils.rejectIfEmpty(errors, "email", "register.email.empty");
 		ValidationUtils.rejectIfEmpty(errors, "password", "register.password.empty");
 		
@@ -33,8 +33,8 @@ public class RegisterValidator implements org.springframework.validation.Validat
 		}
 		
 		Pattern pattern3 = Pattern.compile("[a-zA-Z ]{2,}");
-		if (!(pattern3.matcher(register.getuserid()).matches())) {
-			errors.rejectValue("userid", "register.userid.invalid");
+		if (!(pattern3.matcher(register.getName()).matches())) {
+			errors.rejectValue("name", "register.name.invalid");
 		}
 	}
 }

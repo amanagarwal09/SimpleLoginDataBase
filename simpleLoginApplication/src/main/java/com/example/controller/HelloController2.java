@@ -51,8 +51,8 @@ public class HelloController2 {
 			if (i.getEmail().equals(model.getEmail()) && i.getPassword().equals(model.getPassword())) {
 				System.out.println(model);
 				Register byEmail = dao.getByEmail(model.getEmail());
-				String name = byEmail.getuserid();
-				mv.addObject("userid", name);
+				String name = byEmail.getName();
+				mv.addObject("name", name);
 				mv.setViewName("success");
 				return mv;
 			}

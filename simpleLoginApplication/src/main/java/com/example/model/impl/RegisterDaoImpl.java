@@ -17,7 +17,21 @@ public class RegisterDaoImpl implements RegisterDao{
 	@Override
 	public int insert(Register register) {
 		String sql = "insert into register values(?,?,?)";
-		int update = jt.update(sql, register.getuserid(), register.getEmail(), register.getPassword());
+		int update = jt.update(sql, register.getName(), register.getEmail(), register.getPassword());
+		return update;
+	}
+
+	@Override
+	public int update(Register register) {
+		String sql = "update register set name=?, password=? where email=? ";
+		int update = jt.update(sql, register.getName(), register.getPassword(), register.getEmail());
+		return update;
+	}
+
+	@Override
+	public int delete(String email) {
+		String sql = "delete from register where email=?";
+		int update = jt.update(sql, email);
 		return update;
 	}
 

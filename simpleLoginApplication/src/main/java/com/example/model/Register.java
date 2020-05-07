@@ -1,14 +1,14 @@
 package com.example.model;
 
 public class Register {
-	private String userid;
+	private String name;
 	private String email;
 	private String password;
-	public String getuserid() {
-		return userid;
+	public String getName() {
+		return name;
 	}
-	public void setuserid(String userid) {
-		this.userid = userid;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;
@@ -24,7 +24,7 @@ public class Register {
 	}
 	@Override
 	public String toString() {
-		return "Register [userid=" + userid + ", email=" + email + ", password=" + password + "]";
+		return "Register [name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
 	
 }
